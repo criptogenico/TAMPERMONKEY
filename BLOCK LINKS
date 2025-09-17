@@ -1,0 +1,117 @@
+// ==UserScript==
+// @name         BLOCK Multi-Mode
+// @namespace    http://tampermonkey.net/
+// @version      1.2
+// @description  Bloquea URLs, paths y hash específicos
+// @author       criptogenico
+// @match        *://*/*
+// @run-at       document-start
+// @grant        none
+// @updateURL    https://gist.github.com/criptogenico/6675e9caa407f844e992c1a4a133bdd9/raw/blocker.user.js
+// @downloadURL  https://gist.github.com/criptogenico/6675e9caa407f844e992c1a4a133bdd9/raw/blocker.user.js
+// ==/UserScript==
+
+(function() {
+'use strict';
+
+// ========== LISTA DE BLOQUEOS (pegado a la izquierda) ==========
+const URLS_COMPLETAS = `
+https://www.boardsbeyond.com/profile
+https://www.boardsbeyond.com/my-subscription
+https://www.boardsbeyond.com/login
+https://boardsbeyond.com/profile
+https://boardsbeyond.com/my-subscription
+https://boardsbeyond.com/login
+https://www.visualdx.com/visualdx/app/profile
+https://www.visualdx.com/visualdx/app/change-password
+https://app.lecturio.com/account
+https://next.amboss.com/us/account/settings
+https://www.osmosis.org/account/profile
+https://www.osmosis.org/account/settings
+`.trim();
+
+const SOLO_PATHS = `
+/account
+/settings
+/dashboard
+`.trim();
+
+const SOLO_HASH = `
+#!/settings
+#!/login
+#!/account
+#!/remote-access
+`.trim();
+
+// Configuración
+const MODO = 'redirect';
+const DESTINO = 'about:blank';
+
+// Parsear listas
+const urls = URLS_COMPLETAS.split('\n').map(s=>s.trim()).filter(Boolean);
+const paths = SOLO_PATHS.split('\n').map(s=>s.trim()).filter(Boolean);
+const hashes = SOLO_HASH.split('\n').map(s=>s.trim()).filter(Boolean);
+
+function isBlocked() {
+  const currentURL = location.href;
+  const currentPath = location.pathname;
+  const currentHash = location.hash;
+  
+  // 1. Verificar URLs completas
+  for(const url of urls) {
+    if(currentURL.startsWith(url)) return true;
+  }
+  
+  // 2. Verificar paths
+  for(const path of paths) {
+    if(currentPath === path || currentPath.startsWith(path + '/')) return true;
+  }
+  
+  // 3. Verificar hash
+  for(const hash of hashes) {
+    if(currentHash === hash) return true;
+  }
+  
+  // 4. Caso especial ClinicalKey remote-access
+  if(currentURL.includes('clinicalkey.es') && currentHash === '#!/remote-access') {
+    return true;
+  }
+  
+  return false;
+}
+
+function block() {
+  if(MODO === 'redirect') {
+    location.replace(DESTINO);
+  } else {
+    document.documentElement.innerHTML = '';
+  }
+}
+
+// Verificación inicial
+if(isBlocked()) { block(); return; }
+
+// Interceptar cambios de hash
+window.addEventListener('hashchange', () => {
+  if(isBlocked()) block();
+});
+
+// Interceptar History API
+const push = history.pushState;
+history.pushState = function() {
+  push.apply(history, arguments);
+  if(isBlocked()) block();
+};
+
+const replace = history.replaceState;
+history.replaceState = function() {
+  replace.apply(history, arguments);
+  if(isBlocked()) block();
+};
+
+// Verificación periódica
+setInterval(() => {
+  if(isBlocked()) block();
+}, 200);
+
+})();

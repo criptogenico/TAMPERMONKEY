@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BLOCK Multi-Mode
 // @namespace    http://tampermonkey.net/
-// @version      2.2
+// @version      2.3
 // @description  Bloquea URLs, paths y hash específicos
 // @author       criptogenico
 // @match        *://*/*

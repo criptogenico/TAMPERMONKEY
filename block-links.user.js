@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BLOCK Multi-Mode
 // @namespace    http://tampermonkey.net/
-// @version      1.2
+// @version      2.1
 // @description  Bloquea URLs, paths y hash específicos
 // @author       criptogenico
 // @match        *://*/*
@@ -16,24 +16,33 @@
 
 // ========== LISTA DE BLOQUEOS (pegado a la izquierda) ==========
 const URLS_COMPLETAS = `
+https://app.lecturio.com/account
+https://www.osmosis.org/account/profile
+https://www.osmosis.org/account/billing
+https://www.osmosis.org/account/settings?index=settings
 https://www.boardsbeyond.com/profile
 https://www.boardsbeyond.com/my-subscription
-https://www.boardsbeyond.com/login
-https://boardsbeyond.com/profile
-https://boardsbeyond.com/my-subscription
-https://boardsbeyond.com/login
-https://www.visualdx.com/visualdx/app/profile
-https://www.visualdx.com/visualdx/app/change-password
-https://app.lecturio.com/account
+https://www.boardsbeyond.com/payment-history
+https://www.uptodate.com/account/consolidate-accounts
+https://next.amboss.com/us/account/career
 https://next.amboss.com/us/account/settings
-https://www.osmosis.org/account/profile
+https://next.amboss.com/us/access-overview
+https://next.amboss.com/us/payment-info
+https://next.amboss.com/us/invoices
+https://next.amboss.com/us/add-access-code
+https://next.amboss.com/us/campuslicense/add
 https://www.osmosis.org/account/settings
+https://www.canva.com/settings/your-account
+https://grok.com/?_s=account
+https://grok.com/?_s=data
+https://grok.com/?_s=billing
+https://sider.ai/es/my
+https://www.visualdx.com/visualdx/app/change-password
+https://www.visualdx.com/visualdx/app/profile
 `.trim();
 
 const SOLO_PATHS = `
-/account
-/settings
-/dashboard
+/
 `.trim();
 
 const SOLO_HASH = `
@@ -41,6 +50,7 @@ const SOLO_HASH = `
 #!/login
 #!/account
 #!/remote-access
+#!/change-password
 `.trim();
 
 // Configuración

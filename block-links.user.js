@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name         BLOCK Multi-Mode
 // @namespace    http://tampermonkey.net/
-// @version      2.1
+// @version      2.2
 // @description  Bloquea URLs, paths y hash específicos
 // @author       criptogenico
 // @match        *://*/*
 // @run-at       document-start
 // @grant        none
-// @updateURL    https://gist.github.com/criptogenico/6675e9caa407f844e992c1a4a133bdd9/raw/blocker.user.js
-// @downloadURL  https://gist.github.com/criptogenico/6675e9caa407f844e992c1a4a133bdd9/raw/blocker.user.js
+// @updateURL    https://raw.githubusercontent.com/criptogenico/TAMPERMONKEY/main/block-links.user.js
+// @downloadURL  https://raw.githubusercontent.com/criptogenico/TAMPERMONKEY/main/block-links.user.js
 // ==/UserScript==
 
 (function() {

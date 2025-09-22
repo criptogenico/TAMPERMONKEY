@@ -1,19 +1,18 @@
 // ==UserScript==
 // @name         BLOCK Multi-Mode
 // @namespace    http://tampermonkey.net/
-// @version      2.3
+// @version      2.2
 // @description  Bloquea URLs, paths y hash específicos
 // @author       criptogenico
 // @match        *://*/*
 // @run-at       document-start
 // @grant        none
-// @updateURL    https://raw.githubusercontent.com/criptogenico/TAMPERMONKEY/main/block-links.user.js
-// @downloadURL  https://raw.githubusercontent.com/criptogenico/TAMPERMONKEY/main/block-links.user.js
+// @updateURL    https://criptogenico.github.io/userscripts/blocker.user.js
+// @downloadURL  https://criptogenico.github.io/userscripts/blocker.user.js
 // ==/UserScript==
 
 (function() {
 'use strict';
-
 // ========== LISTA DE BLOQUEOS (pegado a la izquierda) ==========
 const URLS_COMPLETAS = `
 https://app.lecturio.com/account
